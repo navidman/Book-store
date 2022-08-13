@@ -32,6 +32,11 @@ class User extends Authenticatable
         return false;
     }
 
+    public function accounting()
+    {
+        return $this->hasOne(Accounting::class);
+    }
+
     public function cards()
     {
         return $this->hasMany(Card::class);

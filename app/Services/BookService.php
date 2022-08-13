@@ -8,6 +8,7 @@ class BookService
 {
     public function getBookList()
     {
-        return Book::all();
+        $books = Book::all();
+        return $books;
     }
 }

@@ -2,28 +2,30 @@
 
 namespace App\Jobs;
 
+use App\Models\Accounting;
 use App\Models\Request;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class LogJob implements ShouldQueue
+class OrderAccountingJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $userId, $api;
+    private $userId, $amount;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($userId, $api)
+    public function __construct($userId, $amount)
     {
         $this->userId = $userId;
-        $this->api = $api;
+        $this->amount = $amount;
     }
 
     /**
@@ -34,7 +36,13 @@ class LogJob implements ShouldQueue
     public function handle()
     {
         try {
-            Request::create(['user_id' => $this->userId, 'api' => $this->api]);
+            $accounting = Accounting::whereUserId($this->userId)->first();
+            if ($accounting) {
+                $accounting->update(['to_pay' => $accounting->amount + $this->amount * 0.2]);
+            }
+            if (!$accounting) {
+                Accounting::Create(['user_id' => $this->userId, 'to_pay' => $this->amount * 0.2]);
+            }
         } catch (\Throwable $throwable) {
             report($throwable);
         }

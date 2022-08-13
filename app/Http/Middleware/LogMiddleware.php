@@ -17,8 +17,7 @@ class LogMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        //dispatch(new LogJob($request->user()->id, $request->getUri()));
-        dispatch(new LogJob(rand(1, 10), $request->getUri()));
+        dispatch(new LogJob($request->user()->id, $request->getUri()));
         return $next($request);
     }
 }

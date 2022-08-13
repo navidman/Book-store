@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateAccountingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('accountings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->index();
-            $table->unsignedBigInteger('book_id')->index();
-            $table->string('order_number')->unique();
-            $table->integer('quantity');
-            $table->string('price');
-            $table->json('book');
+            $table->string('to_pay')->index();
             $table->timestamps();
             $table->softDeletes();
 
@@ -29,12 +25,6 @@ return new class extends Migration
                 ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreign('book_id')
-                ->references('id')
-                ->on('books')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-
         });
     }
 
@@ -45,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('accountings');
     }
-};
+}
