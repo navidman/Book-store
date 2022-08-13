@@ -17,10 +17,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->index();
             $table->unsignedBigInteger('book_id')->index();
+            $table->string('order_number')->unique();
             $table->integer('quantity');
             $table->string('price');
-            $table->string('total');
+            $table->string('our_fee');
             $table->string('user_fee');
+            $table->json('book');
             $table->timestamps();
             $table->softDeletes();
 
