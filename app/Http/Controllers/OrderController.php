@@ -25,6 +25,26 @@ class OrderController extends Controller
             return $order;
         } catch (\Throwable $throwable) {
             report($throwable);
+            return response('در سمت سرور خطایی رخ داده است.', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function report(Request $request)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'from' => ['date_format:Y-m-d'],
+            'to' => ['date_format:Y-m-d'],
+        ]);
+        if ($validator->fails()) {
+            return response($validator->errors(), 400);
+        }
+        try {
+            $report = OrderFacade::all($data);
+            return $report;
+        } catch (\Throwable $throwable) {
+            report($throwable);
+            return response('در سمت سرور خطایی رخ داده است.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

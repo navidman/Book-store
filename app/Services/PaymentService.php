@@ -36,4 +36,14 @@ class PaymentService
         dispatch(new PaymentAccountingJob($userId, $data['amount']));
         return $payment;
     }
+
+    public function all($data)
+    {
+        $from = isset($data['from']) ? $data['from'] : null;
+        $to = isset($data['to']) ? $data['to'] : null;
+        $payments = Payment::when($from, function ($query) use ($from, $to) {
+            $query->whereBetween('created_at', [$from, $to]);
+        })->get()->groupBy('user_id');
+        return response(['data' => $payments], Response::HTTP_OK);
+    }
 }

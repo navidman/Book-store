@@ -70,4 +70,14 @@ class OrderService
         }
         return $randomString;
     }
+
+    public function all($data)
+    {
+        $from = isset($data['from']) ? $data['from'] : null;
+        $to = isset($data['to']) ? $data['to'] : null;
+        $orders = Order::when($from, function ($query) use ($from, $to) {
+            $query->whereBetween('created_at', [$from, $to]);
+        })->get()->groupBy('user_id');
+        return response(['data' => $orders], Response::HTTP_OK);
+    }
 }

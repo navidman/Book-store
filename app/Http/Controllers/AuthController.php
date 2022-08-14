@@ -17,7 +17,7 @@ class AuthController extends Controller
             'password' => ['required', 'min:8'],
         ]);
         if ($validator->fails()) {
-            return response(responseError('', $validator->errors()), 400);
+            return response($validator->errors(), 400);
         }
         $user = User::where('email', $request->email)->first();
         if (!$user) {
@@ -30,6 +30,7 @@ class AuthController extends Controller
                 return response($tokenInfo, 200);
             } catch (\Throwable $throwable) {
                 report($throwable);
+                return response('در سمت سرور خطایی رخ داده است.', Response::HTTP_INTERNAL_SERVER_ERROR);
             }
         } else {
             $validator->errors()->add('code', 'رمز عبور وارد شده معتبر نمی باشد');

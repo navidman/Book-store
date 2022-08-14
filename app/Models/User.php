@@ -14,10 +14,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected $hidden = [
-        'password'
+        'password',
     ];
 
     protected $casts = [
