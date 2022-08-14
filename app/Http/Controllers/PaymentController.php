@@ -19,13 +19,13 @@ class PaymentController extends Controller
         if ($validator->fails()) {
             return response($validator->errors(), 400);
         }
-        try {
+//        try {
             $payment = PaymentFacade::payment($data);
             return $payment;
-        } catch (\Throwable $throwable) {
-            report($throwable);
-            return response('در سمت سرور خطایی رخ داده است.', Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+//        } catch (\Throwable $throwable) {
+//            report($throwable);
+//            return response('در سمت سرور خطایی رخ داده است.', Response::HTTP_INTERNAL_SERVER_ERROR);
+//        }
     }
 
     public function report(Request $request)

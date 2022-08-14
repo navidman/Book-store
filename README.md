@@ -16,52 +16,194 @@ I wrote a single test for books index api just as sample. you can test it by run
 
 ## API's
 
-1. ### api/login
-    parameters:
-        1.email
-- php artisan migrate
-- php artisan db:seed -> users table(book-stores) and books table and cards table will be filled.
-- php artisan passport:install
-- php artisan key:generate
-- php artisan optimize
-- php artisan serve
+### 1. api/login POST
+    - parameters:
+      - 1.email >  test@example.com 
+        
+      -  2.password > 12345678
+    - response:
+    {
+       - "token_type": "Bearer",
+       - "expires_in": 172800,
+       - "access_token": "CJGREBNRFYMowA9vWuwfQFgkN_yaqVNMY-XecmQxXN-B6rw",
+       - "refresh_token": "CJGREBNRFYMowA9vWuwfQFgkN_yaqVNMY-XecmQxXN-B6rw",
+       - "user": {
+       - "name": "test",
+       - "email": "test@example.com",
+       - "mobile": "09129120912"
+       }
+    }
+### 2. api/revoke POST
+     - Response
+        - 'با موفقیت خارج شدید'
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 3. api/books GET
+    - Response:
+        - {
+          - "data": [
+              {
+            - "id": 1,
+            - "title": "Otho Hudson", 
+            - "book_number": "ELHGTDTENY",
+            - "price": "12923",
+            - "quantity": 74,
+            - "created_at": "2022-08-13T21:09:30.000000Z",
+            - "updated_at": "2022-08-13T21:11:07.000000Z",
+            - "deleted_at": null
+            - },
+            - {
+            - "id": 2,
+            - "title": "Dr. Judson Lehner II",
+            - "book_number": "89WWF4GGYP",
+            - "price": "11076",
+            - "quantity": 39,
+            - "created_at": "2022-08-13T21:09:30.000000Z",
+            - "updated_at": "2022-08-13T21:09:30.000000Z",
+            - "deleted_at": null
+          - },
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 4. api/order POST
+    - Parameters:
+        - title: Otho Hudson
+        - book_number: ELHGTDTENY
+        - amount: 20
+    - Response:
+        - {
+            - "data": {
+                - "user_id": 1,
+                - "book_id": 1,
+                - "order_number": "UYESAUFNKV",
+                - "quantity": "20",
+                - "price": 258460,
+                - "book": {
+                - "id": 1,
+                - "title": "Otho Hudson",
+                - "book_number": "ELHGTDTENY",
+                - "price": "12923",
+                - "quantity": 74,
+                - "created_at": "2022-08-13T21:09:30.000000Z",
+                - "updated_at": "2022-08-13T21:11:07.000000Z",
+                - "deleted_at": null
+                - },
+                - "updated_at": "2022-08-14T20:31:33.000000Z",
+                - "created_at": "2022-08-14T20:31:33.000000Z",
+                - "id": 2
+                - }
+              - }
+    
+### 5. api/payment POST
+    - Parameters:
+        - amount: 200
+        - iban: TN1946981212305359050634
+    - Response:
+        - {
+            - "data": {
+                - "user_id": 11,
+                - "card_id": 11,
+                - "price": "200",
+                - "updated_at": "2022-08-14T20:50:32.000000Z",
+                - "created_at": "2022-08-14T20:50:32.000000Z",
+                - "id": 7
+            - }
+        - }
+### 6. api/report/accounting
+    - Response:
+        - {
+            - "data": [
+                - {
+                    - "id": 1,
+                    - "user_id": 1,
+                    - "to_pay": "51692",
+                    - "created_at": "2022-08-13T21:11:07.000000Z",
+                    - "updated_at": "2022-08-14T20:31:33.000000Z",
+                    - "deleted_at": null
+                - },
+                - {
+                    - "id": 2,
+                    - "user_id": 11,
+                    - "to_pay": "51492",
+                    - "created_at": "2022-08-14T20:50:15.000000Z",
+                    - "updated_at": "2022-08-14T20:50:32.000000Z",
+                    - "deleted_at": null
+                - }
+            - ]
+        - }
+### 7. api/report/orders ->  sends orders groupBy user_id
+    - Parameters:
+        - from: date_format:Y-m-d >  2022-08-14  > optional
+        - to: date_format:Y-m-d  >  2022-08-16  > optional
+    - Response:
+        - {
+            - "data": {
+                - "1": [
+                    - {
+                        - "id": 1,
+                        - "user_id": 1,
+                        - "book_id": 1,
+                        - "order_number": "CTKTA1LBQ7",
+                        - "quantity": 2,
+                        - "price": "25846",
+                        - "book": "{\"id\": 1, \"price\": \"12923\", \"title\": \"Otho Hudson\", \"quantity\": 76, \"created_at\": \"2022-08-13T21:09:30.000000Z\", \"deleted_at\": null, \"updated_at\": \"2022-08-13T21:09:30.000000Z\", \"book_number\": \"ELHGTDTENY\"}",
+                        - "created_at": "2022-08-13T21:11:07.000000Z",
+                        - "updated_at": "2022-08-13T21:11:07.000000Z",
+                        - "deleted_at": null
+                    - }
+                - ],
+                - "11": [
+                    - {
+                        - "id": 3,
+                        - "user_id": 11,
+                        - "book_id": 1,
+                        - "order_number": "MWZHLEFHHU",
+                        - "quantity": 20,
+                        - "price": "258460",
+                        - "book": "{\"id\": 1, \"price\": \"12923\", \"title\": \"Otho Hudson\", \"quantity\": 54, \"created_at\": \"2022-08-13T21:09:30.000000Z\", \"deleted_at\": null, \"updated_at\": \"2022-08-14T20:31:33.000000Z\", \"book_number\": \"ELHGTDTENY\"}",
+                        - "created_at": "2022-08-14T20:50:15.000000Z",
+                        - "updated_at": "2022-08-14T20:50:15.000000Z",
+                        - "deleted_at": null
+                    - }
+                - ]
+            - }
+        - }
+        
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 9. api/report/payments
+    - Parameters:
+        - from: date_format:Y-m-d >  2022-08-14  > optional
+        - to: date_format:Y-m-d  >  2022-08-16  > optional
+    -Response: 
+        {
+            - "data": {
+                - "1": [
+                    - {
+                        - "id": 1,
+                        - "user_id": 1,
+                        - "card_id": 13,
+                        - "price": "20",
+                        - "created_at": "2022-08-13T21:19:22.000000Z",
+                        - "updated_at": "2022-08-13T21:19:22.000000Z",
+                        - "deleted_at": null
+                    - },
+                    - {
+                        - "id": 4,
+                        - "user_id": 1,
+                        - "card_id": 13,
+                        - "price": "20",
+                        - "created_at": "2022-08-13T21:33:59.000000Z",
+                        - "updated_at": "2022-08-13T21:33:59.000000Z",
+                        - "deleted_at": null
+                    - }
+                - ],
+                - "11": [
+                    - {
+                        - "id": 7,
+                        - "user_id": 11,
+                        - "card_id": 11,
+                        - "price": "200",
+                        - "created_at": "2022-08-14T20:50:32.000000Z",
+                        - "updated_at": "2022-08-14T20:50:32.000000Z",
+                        - "deleted_at": null
+                    - }
+                - ]
+            - }
+        - }
