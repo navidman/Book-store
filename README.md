@@ -106,7 +106,7 @@ I wrote a single test for books index api just as sample. you can test it by run
                 - "id": 7
             - }
         - }
-### 6. api/report/accounting
+### 6. api/report/accounting  GET
     - Response:
         - {
             - "data": [
@@ -128,7 +128,7 @@ I wrote a single test for books index api just as sample. you can test it by run
                 - }
             - ]
         - }
-### 7. api/report/orders ->  sends orders groupBy user_id
+### 7. api/report/orders    POST   ->  sends orders groupBy user_id
     - Parameters:
         - from: date_format:Y-m-d >  2022-08-14  > optional
         - to: date_format:Y-m-d  >  2022-08-16  > optional
@@ -167,7 +167,7 @@ I wrote a single test for books index api just as sample. you can test it by run
         - }
         
 
-### 9. api/report/payments
+### 9. api/report/payments  POST
     - Parameters:
         - from: date_format:Y-m-d >  2022-08-14  > optional
         - to: date_format:Y-m-d  >  2022-08-16  > optional
