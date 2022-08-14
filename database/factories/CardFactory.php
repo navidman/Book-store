@@ -17,7 +17,7 @@ class CardFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => rand(1, 10),
+            'user_id' => rand(1, 11),
             'iban' => $this->faker->iban(),
             'created_at' => now(),
             'updated_at' => now()
