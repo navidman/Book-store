@@ -27,7 +27,7 @@ class BookTest extends TestCase
         ];
         BookFacade::shouldReceive('getBookList')->once()->andReturn($books);
 
-        $response = $this->get('/api/books');
+        $response = $this->withoutMiddleware()->get('/api/books');
 
         $response->assertStatus(200);
     }
