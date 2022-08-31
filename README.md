@@ -1,8 +1,8 @@
-# Itoll Book-Store Test
+#  Book-Store
 
 ## <g-emoji class="g-emoji" alias="arrow_down" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2b07.png">⬇️</g-emoji> Installation
 
-This is a test app for Itoll company. please clone the project and define a database and config it in .env .then run these commands listed below:
+This is a test app for just showing my code skills in laravel. please clone the project and define a database and config it in .env .then run these commands listed below:
 
 ```bash
 composer install
